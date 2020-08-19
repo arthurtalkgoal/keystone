@@ -56,6 +56,13 @@ multiAdapterRunners().map(({ runner, adapterName }) =>
               await mod.afterAll();
             }
           });
+
+          // Some field types have unique CRUD constraints, for example Content field.
+          // So, in those case, we can write our custom CRUD tests rather than relying on generic tests as follows.
+          if (mod.crudTests) {
+            return mod.crudTests(keystoneTestWrapper);
+          }
+
           const {
             fieldName,
             exampleValue,
